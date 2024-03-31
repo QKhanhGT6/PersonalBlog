@@ -12,7 +12,7 @@ namespace OldBLOG.Data.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public ApplicationUser Creator { get; set; }
+        public string Creator { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -23,10 +23,6 @@ namespace OldBLOG.Data.Models
 
         [Display(Name = "Category")]
         public int CateId { get; set; }
-        public Category Category { get; set; }
-        
-        public bool Published { get; set; }
-
-        public virtual IEnumerable<Post> Posts { get; set; } // won't stored in DB, fetch when query post on blog
+        public Category Category { get; set; }    
     }
 }

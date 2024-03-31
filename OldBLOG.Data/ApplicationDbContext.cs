@@ -10,8 +10,8 @@ namespace OldBLOG.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
-    }
+            : base(options) {}
+		public DbSet<Blog> Blogs { get; set; }
+		public DbSet<Category> Categories { get; set; }
+	}
 }

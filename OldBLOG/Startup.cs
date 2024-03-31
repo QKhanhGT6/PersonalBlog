@@ -37,7 +37,7 @@ namespace OldBLOG
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
-            services.AddDbContext<BlogDbContext>(option =>
+            services.AddDbContext<ApplicationDbContext>(option =>
                 option.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
         }

@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OldBLOG.Data;
-using OldBLOG.Models.BlogViewModels;
 
 namespace OldBLOG.Controllers
 {
     public class BlogController : Controller
     {
-        private readonly BlogDbContext dbContext;
+        private readonly ApplicationDbContext dbContext;
 
-        public BlogController(BlogDbContext dbContext)
+        public BlogController(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -19,12 +18,6 @@ namespace OldBLOG.Controllers
         }
 
         public IActionResult Create()
-        {
-            return View(new CreateBlogViewModel());
-        }
-
-        [HttpPost]
-        public IActionResult Add(CreateBlogViewModel createBlogViewModel)
         {
             return View();
         }
