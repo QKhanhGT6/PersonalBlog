@@ -13,12 +13,20 @@ namespace OldBLOG.Data.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public ApplicationUser Creator { get; set; }
+
         [Required]
         public string Title { get; set; }
+
         [Required]
         public string Content { get; set; }
-        public DateTime CreateOn { get; set; }
+        public DateTime CreatedOn { get; set; }
+
+        [Display(Name = "Category")]
         public int CateId { get; set; }
         public Category Category { get; set; }
+        
+        public bool Published { get; set; }
+
+        public virtual IEnumerable<Post> Posts { get; set; } // won't stored in DB, fetch when query post on blog
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OldBLOG.Data;
+using OldBLOG.Models.BlogViewModels;
 
 namespace OldBLOG.Controllers
 {
@@ -18,6 +19,12 @@ namespace OldBLOG.Controllers
         }
 
         public IActionResult Create()
+        {
+            return View(new CreateBlogViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult Add(CreateBlogViewModel createBlogViewModel)
         {
             return View();
         }
