@@ -1,16 +1,21 @@
 ﻿@model OldBLOG.Models.BlogViewModels.CreateBlogViewModel
 
+@section Styles{
+	<link rel="stylesheet" href="~/css/content-styles.css" type="text/css">
+}
+
 <div class="container-fluid">
 	<h1 class="mt-4">Create</h1>
 	<div class="row">
-		<div class="col-lg-6">
+		<div class="col-lg-8">  <!--class="col-lg-6"-->
 			<div class="card mb-4">
-				<div class="card-header">
-					<i class="fas fa-pen-fancy mr-1"></i>
-					Write a Post
-				</div>
-				<div class="card-body">
-					<form id="CreateBlogForm" asp-controller="Blog" asp-action="Add" method="post" enctype="multipart/form-data">
+				<form asp-controller="Blog" asp-action="Add" method="post" enctype="multipart/form-data">
+					<div class="card-header">
+						<i class="fas fa-pen-fancy mr-1"></i>
+						Write a Post
+					</div>
+					<div class="card-body">
+						
 						<div class="form-group">
 							<label asp-for="Blog.Title"></label>
 							<input asp-for="Blog.Title" class="form-control" required/>
@@ -19,33 +24,40 @@
 							
 						<div class="form-group">
 							<label asp-for="Blog.Content"></label>
-							<textarea asp-for="Blog.Content" class="form-control textarea" rows="8"></textarea>
+							<textarea asp-for="Blog.Content" class="form-control textarea" rows="16"></textarea>
 							<span asp-validation-for="Blog.Content" class="text-danger"></span>
 						</div>
-					</form>
-				</div>
-				<div class="card-footer">
-					<div class="form-group">
-						<p class="text-muted">Publish now or save for later edits</p>
-						<label>Publish now?</label>
-						<input type="checkbox" checked data-toggle="toggle" />
-						</br>
-						<button class="btn btn-primary" type="submit" form="CreateBlogForm">Submit</button>
+						
 					</div>
-				</div>
+					<div class="card-footer">
+						<div class="form-group">
+							<p class="text-muted">Publish now or save for later edits</p>
+							<label>Publish now?</label>
+							<input type="checkbox" data-toggle="toggle" asp-for="Blog.Published"/>
+							<br /></br>
+							<button class="btn btn-primary" type="submit">Submit</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
 </div>
 
+
 @section Scripts
 {
-	<script src="https://cdn.ckeditor.com/ckeditor5/21.0.0/classic/ckeditor.js"></script>
+	<!--<script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
 	<script>
 		ClassicEditor
 			.create(document.querySelector(".textarea"))
 			.catch(error => {
 				console.error(error);
 			});
+	</script>-->
+
+	<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+	<script>
+		CKEDITOR.replace('Blog_Content');
 	</script>
 }

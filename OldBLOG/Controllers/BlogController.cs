@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OldBLOG.BusinessManagers.Interfaces;
 using OldBLOG.Data;
 using OldBLOG.Models.BlogViewModels;
+using System.Threading.Tasks;
 
 namespace OldBLOG.Controllers
 {
     public class BlogController : Controller
     {
-        private readonly BlogDbContext dbContext;
+        private readonly IBlogBusinessManager blogBusinessManager;
 
-        public BlogController(BlogDbContext dbContext)
+        public BlogController(IBlogBusinessManager blogBusinessManager)
         {
-            this.dbContext = dbContext;
+            this.blogBusinessManager = blogBusinessManager;
         }
 
         public IActionResult Index()
@@ -24,9 +26,11 @@ namespace OldBLOG.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(CreateBlogViewModel createBlogViewModel)
+        public async Task<IActionResult> Add(CreateBlogViewModel createBlogViewModel)
         {
-            return View();
+            await blogBusinessManager.CreateBlog(createBlogViewModel, User);
+            return RedirectToAction("Create");
+            // return View(); -> Look for a View nam Add -> Don't have that and don't want to cause POST -> 
         }
     }
 }

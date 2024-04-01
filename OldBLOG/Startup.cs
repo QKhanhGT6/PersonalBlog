@@ -7,8 +7,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OldBLOG.BusinessManagers;
+using OldBLOG.BusinessManagers.Interfaces;
 using OldBLOG.Data;
 using OldBLOG.Data.Models;
+using OldBLOG.Service;
+using OldBLOG.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,9 +41,10 @@ namespace OldBLOG
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
-            services.AddDbContext<BlogDbContext>(option =>
-                option.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+
+            // custom services ready to eject
+            services.AddScoped<IBlogBusinessManager, BlogBusinessManager>();
+            services.AddScoped<IBlogService, BlogService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,7 +10,6 @@ namespace OldBLOG.Data.Models
     public class Blog
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public ApplicationUser Creator { get; set; }
 
@@ -21,10 +20,11 @@ namespace OldBLOG.Data.Models
         public string Content { get; set; }
         public DateTime CreatedOn { get; set; }
 
-        [Display(Name = "Category")]
-        public int CateId { get; set; }
-        public Category Category { get; set; }
-        
+        //[Display(Name = "Category")]
+        //public int CateId { get; set; }
+        //public Category Category { get; set; }
+        public string Category { get; set; }
+
         public bool Published { get; set; }
 
         public virtual IEnumerable<Post> Posts { get; set; } // won't stored in DB, fetch when query post on blog

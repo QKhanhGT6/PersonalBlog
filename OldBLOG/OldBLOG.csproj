@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OldBLOG.Data\OldBLOG.Data.csproj" />
+    <ProjectReference Include="..\OldBLOG.Service\OldBLOG.Service.csproj" />
   </ItemGroup>
 
 </Project>
