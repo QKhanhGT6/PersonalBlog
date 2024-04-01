@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OldBLOG.Data;
+using OldBLOG.Data.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OldBLOG.Controllers
 {
@@ -14,7 +17,8 @@ namespace OldBLOG.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Blog> listBlogs = dbContext.Blogs.ToList();
+            return View(listBlogs);
         }
 
         public IActionResult Create()
