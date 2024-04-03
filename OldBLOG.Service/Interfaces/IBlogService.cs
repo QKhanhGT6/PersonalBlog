@@ -12,6 +12,7 @@ namespace OldBLOG.Service.Interfaces
 
 		// can call this in AdminBusinessManager
 		IEnumerable<Blog> GetBlogs(ApplicationUser applicationUser);
+		public IEnumerable<Blog> GetBlogs(string searchString);
 
 		Task<Blog> Add(Blog blog);
 		Task<Blog> Update(Blog blog);

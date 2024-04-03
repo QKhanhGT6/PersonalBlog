@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using OldBLOG.BusinessManagers.Interfaces;
 using OldBLOG.Models;
 using System;
 using System.Collections.Generic;
@@ -11,23 +12,16 @@ namespace OldBLOG.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IBlogBusinessManager blogBusinessManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IBlogBusinessManager blogBusinessManager)
         {
-            _logger = logger;
+            this.blogBusinessManager = blogBusinessManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string searchString, int? page)
         {
-            return View();
-        }
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(blogBusinessManager.GetIndexViewModel(searchString, page));
         }
     }
 }

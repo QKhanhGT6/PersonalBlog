@@ -5,12 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using OldBLOG.Authorization;
 using OldBLOG.BusinessManagers.Interfaces;
 using OldBLOG.Data.Models;
+using OldBLOG.Models.HomeViewModels;
 using OldBLOG.Models.BlogViewModels;
 using OldBLOG.Service.Interfaces;
 using System;
 using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using PagedList.Core;
+using System.Linq;
 
 namespace OldBLOG.BusinessManagers
 {
@@ -33,6 +36,24 @@ namespace OldBLOG.BusinessManagers
 			this.authorizationService = authorizationService;
 		}
 
+		// for pagination
+		public IndexViewModel GetIndexViewModel(string searchString, int? page)
+		{
+			int pageSize = 20;
+			int pageNumber = page ?? 1;
+			var blogs = blogService.GetBlogs(searchString ?? string.Empty)
+				.Where(blog => blog.Published);
+
+			return new IndexViewModel
+			{
+				// manipulate what this page consists of
+				// tell where to start, vd 2 => (2-1)*20 = 20
+				Blogs = new StaticPagedList<Blog>(blogs.Skip((pageNumber - 1) * pageSize).Take(pageSize), pageNumber, pageSize, blogs.Count()),
+				SearchString = searchString,
+				PageNumber = pageNumber
+			};
+		}
+
 		// store image in web group path
 		public async Task<Blog> CreateBlog(CreateViewModel createViewModel, ClaimsPrincipal claimsPrincipal)
 		{
@@ -42,7 +63,7 @@ namespace OldBLOG.BusinessManagers
 			blog.CreatedOn = DateTime.Now;
 			blog.UpdatedOn = DateTime.Now;
 
-			// Have added the blog (now contain the DB's ID) -> build path to where this img will be stored
+			// Have added the post (now contain the DB's ID) -> build path to where this img will be stored
 			blog = await blogService.Add(blog);
 			string webRootPath = webHostEnvironment.WebRootPath; //-> point to wwwroot
 			// create new Folders follow path below

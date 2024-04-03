@@ -21,8 +21,10 @@
    
     @await Component.InvokeAsync("Header")
     
-    @RenderBody()
-
+    <div class="content">
+        @RenderBody()
+    </div>
+    
     @await Component.InvokeAsync("Footer")
     
     <!-- Bootstrap core JS-->
