@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using OldBLOG.Authorization;
 using OldBLOG.BusinessManagers;
 using OldBLOG.BusinessManagers.Interfaces;
 using OldBLOG.Data;
@@ -49,7 +51,11 @@ namespace OldBLOG
             // custom services ready to eject
             services.AddScoped<IBlogBusinessManager, BlogBusinessManager>();
             services.AddScoped<IBlogService, BlogService>();
-        }
+			services.AddScoped<IAdminBusinessManager, AdminBusinessManager>();
+
+            // for Authorization
+            services.AddTransient<IAuthorizationHandler, BlogAuthorizationHandler>();
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

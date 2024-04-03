@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using OldBLOG.Authorization;
 using OldBLOG.BusinessManagers.Interfaces;
 using OldBLOG.Data.Models;
 using OldBLOG.Models.BlogViewModels;
@@ -16,24 +19,28 @@ namespace OldBLOG.BusinessManagers
 		private readonly UserManager<ApplicationUser> userManager;
 		private readonly IBlogService blogService;
 		private readonly IWebHostEnvironment webHostEnvironment;
+		private readonly IAuthorizationService authorizationService;
 
 		// send to BlogService then insert into DB
 		public BlogBusinessManager(UserManager<ApplicationUser> userManager, 
 			IBlogService blogService,
-			IWebHostEnvironment webHostEnvironment)
+			IWebHostEnvironment webHostEnvironment,
+			IAuthorizationService authorizationService)
 		{
 			this.userManager = userManager;
 			this.blogService = blogService;
 			this.webHostEnvironment = webHostEnvironment;
+			this.authorizationService = authorizationService;
 		}
 
 		// store image in web group path
 		public async Task<Blog> CreateBlog(CreateViewModel createViewModel, ClaimsPrincipal claimsPrincipal)
 		{
 			Blog blog = createViewModel.Blog;
-
+			
 			blog.Creator = await userManager.GetUserAsync(claimsPrincipal);
 			blog.CreatedOn = DateTime.Now;
+			blog.UpdatedOn = DateTime.Now;
 
 			// Have added the blog (now contain the DB's ID) -> build path to where this img will be stored
 			blog = await blogService.Add(blog);
@@ -49,6 +56,93 @@ namespace OldBLOG.BusinessManagers
 			}
 
 			return blog;
+		}
+
+		public async Task<ActionResult<EditViewModel>> UpdateBlog(EditViewModel editViewModel, ClaimsPrincipal claimsPrincipal)
+		{
+			var blog = blogService.GetBlog(editViewModel.Blog.Id);
+
+			if (blog is null)
+				return new NotFoundResult();
+
+			var authorizationResult = await authorizationService.AuthorizeAsync(claimsPrincipal, blog, Operations.Update);
+
+			if (!authorizationResult.Succeeded)
+				return DetermineActionResult(claimsPrincipal);
+
+			// already Authorized -> Update blog
+			blog.Published = editViewModel.Blog.Published;
+			blog.Title = editViewModel.Blog.Title;
+			blog.Content = editViewModel.Blog.Content;
+			blog.UpdatedOn = DateTime.Now;
+			blog.Category = editViewModel.Blog.Category;
+
+			if (editViewModel.BlogHeaderImage != null) {
+				string webRootPath = webHostEnvironment.WebRootPath; 
+				string pathToImage = $@"{webRootPath}\UserFiles\Blogs\{blog.Id}\HeaderImage.jpg";
+
+				EnsureFolderExist(pathToImage);
+
+				using var fileStream = new FileStream(pathToImage, FileMode.Create);
+				await editViewModel.BlogHeaderImage.CopyToAsync(fileStream);
+			}
+
+			return new EditViewModel
+			{
+				Blog = await blogService.Update(blog)
+			};
+		}
+
+		// want to get the blog and return View Model
+		// hand back ActionResult with View Model (cause validations)
+		public async Task<ActionResult<EditViewModel>> GetEditViewModel(int? id, ClaimsPrincipal claimsPrincipal)
+		{
+			if (id is null) { return new BadRequestResult(); }
+			//at this point, an Id has been passed in => use that to get a blog
+			var blogId = id.Value;
+			var blog = blogService.GetBlog(blogId);
+			
+			if (blog is null) { return new NotFoundResult(); }
+
+			var authorizationResult = await authorizationService.AuthorizeAsync(claimsPrincipal, blog, Operations.Update);
+
+			if (!authorizationResult.Succeeded)
+				return DetermineActionResult(claimsPrincipal);
+
+			// succeed, simply return view model (add Function's name to IBlogBusinessManager + add method for Editing in BlogController + in BlogService)
+			return new EditViewModel
+			{
+				Blog = blog
+			};
+		}
+
+		// DELETE a Post
+		/*public async Task<ActionResult<DeleteViewModel>> GetDeleteViewModel(int? id, ClaimsPrincipal claimsPrincipal)
+		{
+			if (id is null) { return new BadRequestResult(); }
+			
+			var blogId = id.Value;
+			var blog = blogService.GetBlog(blogId);
+
+			if (blog is null) { return new NotFoundResult(); }
+
+			var authorizationResult = await authorizationService.AuthorizeAsync(claimsPrincipal, blog, Operations.Delete);
+
+			if (!authorizationResult.Succeeded)
+				return DetermineActionResult(claimsPrincipal);
+
+			return new DeleteViewModel
+			{
+				Blog = blog
+			};
+		}*/
+
+		private ActionResult DetermineActionResult(ClaimsPrincipal claimsPrincipal)
+		{
+			if (claimsPrincipal.Identity.IsAuthenticated)
+				return new ForbidResult();
+			else
+				return new ChallengeResult();
 		}
 
 		private void EnsureFolderExist(string path)

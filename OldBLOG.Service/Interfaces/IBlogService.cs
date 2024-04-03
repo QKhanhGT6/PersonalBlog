@@ -8,6 +8,13 @@ namespace OldBLOG.Service.Interfaces
 {
 	public interface IBlogService
 	{
+		Blog GetBlog(int blogId);
+
+		// can call this in AdminBusinessManager
+		IEnumerable<Blog> GetBlogs(ApplicationUser applicationUser);
+
 		Task<Blog> Add(Blog blog);
+		Task<Blog> Update(Blog blog);
+		//Task<Blog> Delete(Blog blog);
 	}
 }

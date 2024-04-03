@@ -19,11 +19,12 @@ namespace OldBLOG.Data.Models
         [Required]
         public string Content { get; set; }
         public DateTime CreatedOn { get; set; }
+		public DateTime UpdatedOn { get; set; }
 
-        //[Display(Name = "Category")]
-        //public int CateId { get; set; }
-        //public Category Category { get; set; }
-        public string Category { get; set; }
+		//[Display(Name = "Category")]
+		//public int CateId { get; set; }
+		//public Category Category { get; set; }
+		public string Category { get; set; }
 
         public bool Published { get; set; }
 

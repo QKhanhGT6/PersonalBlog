@@ -1,0 +1,10 @@
+﻿using OldBLOG.Data.Models;
+using System.Collections.Generic;
+
+namespace OldBLOG.Models.AdminViewModels
+{
+	public class IndexViewModel
+	{
+		public IEnumerable<Blog> Blogs { get; set; }
+	}
+}
