@@ -16,6 +16,8 @@ namespace OldBLOG.BusinessManagers.Interfaces
 
 		IndexViewModel GetIndexViewModel(string searchString, int? page);
 
+		Task<ActionResult<PostViewModel>> GetPostViewModel(int? id, ClaimsPrincipal claimsPrincipal);
+
 		/*Task<ActionResult<EditViewModel>> DeleteBlog(EditViewModel editViewModel, ClaimsPrincipal claimsPrincipal);
 		Task<ActionResult<DeleteViewModel>> GetDeleteViewModel(int? id, ClaimsPrincipal claimsPrincipal);*/
 	}

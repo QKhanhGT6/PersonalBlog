@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OldBLOG.BusinessManagers.Interfaces;
 using OldBLOG.Data;
 using OldBLOG.Models.PostViewModels;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Oldpost.Controllers
 {
+    [Authorize]
     public class PostController : Controller
     {
         private readonly IPostBusinessManager postBusinessManager;
@@ -15,10 +17,19 @@ namespace Oldpost.Controllers
             this.postBusinessManager = postBusinessManager;
         }
 
-        public IActionResult Index()
+        [Route("Post/{id}"), AllowAnonymous]
+        public async Task<IActionResult> Index(int? id)
         {
-            return View();
-        }
+			var actionResult = await postBusinessManager.GetPostViewModel(id, User);
+
+			if (actionResult.Result is null)
+			{
+				// didn't get IActionResult -> return editViewModel
+				return View(actionResult.Value);
+			}
+			// also add in IpostService
+			return actionResult.Result;
+		}
 
         public IActionResult Create()
         {

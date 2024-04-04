@@ -53,6 +53,32 @@ namespace OldBLOG.BusinessManagers
 				PageNumber = pageNumber
 			};
 		}
+		
+		// display post
+		public async Task<ActionResult<PostViewModel>> GetPostViewModel(int? id, ClaimsPrincipal claimsPrincipal)
+		{
+			if (id is null) { return new BadRequestResult(); }
+
+			var postId = id.Value;
+			var post = postService.GetPost(postId);
+
+			if (post is null) { return new NotFoundResult(); }
+
+			// check if the post has been published
+			// if the user is the Author -> allow view unpublished posts
+			if (!post.Published)
+			{
+				var authorizationResult = await authorizationService.AuthorizeAsync(claimsPrincipal, post, Operations.Read);
+
+				if (!authorizationResult.Succeeded)
+					return DetermineActionResult(claimsPrincipal);
+			}
+
+			return new PostViewModel
+			{
+				Post = post
+			};
+		}
 
 		// store image in web group path
 		public async Task<Post> CreatePost(CreateViewModel createViewModel, ClaimsPrincipal claimsPrincipal)
