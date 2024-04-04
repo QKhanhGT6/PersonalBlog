@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OldBLOG.BusinessManagers.Interfaces;
 using OldBLOG.Data;
-using OldBLOG.Models.BlogViewModels;
+using OldBLOG.Models.PostViewModels;
 using System.Threading.Tasks;
 
-namespace OldBLOG.Controllers
+namespace Oldpost.Controllers
 {
-    public class BlogController : Controller
+    public class PostController : Controller
     {
-        private readonly IBlogBusinessManager blogBusinessManager;
+        private readonly IPostBusinessManager postBusinessManager;
 
-        public BlogController(IBlogBusinessManager blogBusinessManager)
+        public PostController(IPostBusinessManager postBusinessManager)
         {
-            this.blogBusinessManager = blogBusinessManager;
+            this.postBusinessManager = postBusinessManager;
         }
 
         public IActionResult Index()
@@ -28,21 +28,21 @@ namespace OldBLOG.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             // might be IActionResult (BadRequest / NotFound / Forbid... OR editViewModel)
-            var actionResult = await blogBusinessManager.GetEditViewModel(id, User);
+            var actionResult = await postBusinessManager.GetEditViewModel(id, User);
 
             if (actionResult.Result is null)
             {
                 // didn't get IActionResult -> return editViewModel
                 return View(actionResult.Value);
             }
-            // also add in IBlogService
+            // also add in IpostService
             return actionResult.Result;
         }
 
         /*
 		public async Task<IActionResult> Delete(int? id)
 		{
-			var actionResult = await blogBusinessManager.GetDeleteViewModel(id, User);
+			var actionResult = await postBusinessManager.GetDeleteViewModel(id, User);
 
 			if (actionResult.Result is null)
 				return View(actionResult.Value);
@@ -53,7 +53,7 @@ namespace OldBLOG.Controllers
 		[HttpPost]
         public async Task<IActionResult> Add(CreateViewModel createViewModel)
         {
-            await blogBusinessManager.CreateBlog(createViewModel, User);
+            await postBusinessManager.CreatePost(createViewModel, User);
             return RedirectToAction("Create");
             // return View(); -> Look for a View name Add -> Don't have that and don't want to cause POST -> 
         }
@@ -61,10 +61,10 @@ namespace OldBLOG.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Update(EditViewModel editViewModel)
 		{
-			var actionResult = await blogBusinessManager.UpdateBlog(editViewModel, User);
+			var actionResult = await postBusinessManager.UpdatePost(editViewModel, User);
 
             if (actionResult.Result is null)
-                return RedirectToAction("Edit", new { editViewModel.Blog.Id});
+                return RedirectToAction("Edit", new { editViewModel.Post.Id});
 
 			return actionResult.Result;
 		}
@@ -73,7 +73,7 @@ namespace OldBLOG.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Delete(DeleteViewModel deleteViewModel)
 		{
-			await blogBusinessManager.DeleteBlog(deleteViewModel, User);
+			await postBusinessManager.Deletepost(deleteViewModel, User);
 			return RedirectToAction("Index");
 		}*/
 	}

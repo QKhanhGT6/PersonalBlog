@@ -49,12 +49,12 @@ namespace OldBLOG
             services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
 
             // custom services ready to eject
-            services.AddScoped<IBlogBusinessManager, BlogBusinessManager>();
-            services.AddScoped<IBlogService, BlogService>();
+            services.AddScoped<IPostBusinessManager, PostBusinessManager>();
+            services.AddScoped<IPostService, PostService>();
 			services.AddScoped<IAdminBusinessManager, AdminBusinessManager>();
 
             // for Authorization
-            services.AddTransient<IAuthorizationHandler, BlogAuthorizationHandler>();
+            services.AddTransient<IAuthorizationHandler, PostAuthorizationHandler>();
 		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

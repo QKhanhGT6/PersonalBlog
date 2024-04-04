@@ -12,9 +12,9 @@ namespace OldBLOG.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IBlogBusinessManager blogBusinessManager;
+        private readonly IPostBusinessManager blogBusinessManager;
 
-        public HomeController(IBlogBusinessManager blogBusinessManager)
+        public HomeController(IPostBusinessManager blogBusinessManager)
         {
             this.blogBusinessManager = blogBusinessManager;
         }

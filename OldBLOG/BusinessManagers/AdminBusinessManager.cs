@@ -11,13 +11,13 @@ namespace OldBLOG.BusinessManagers
 	public class AdminBusinessManager : IAdminBusinessManager
 	{
 		private UserManager<ApplicationUser> userManager;
-		private IBlogService blogService;
+		private IPostService postService;
 
 		public AdminBusinessManager(UserManager<ApplicationUser> userManager,
-			IBlogService blogService)
+			IPostService postService)
 		{
 			this.userManager = userManager;
-			this.blogService = blogService;
+			this.postService = postService;
 		}
 
 		//create a method to get back Blog
@@ -27,7 +27,7 @@ namespace OldBLOG.BusinessManagers
 			var applicationUser = await userManager.GetUserAsync(claimsPrinciple);
 			return new IndexViewModel
 			{
-				Blogs = blogService.GetBlogs(applicationUser)
+				Posts = postService.GetPosts(applicationUser)
 			};
 		}
 	}

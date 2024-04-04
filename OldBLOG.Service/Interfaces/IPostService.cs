@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace OldBLOG.Service.Interfaces
 {
-	public interface IBlogService
+	public interface IPostService
 	{
-		Blog GetBlog(int blogId);
+		Post GetPost(int postId);
 
 		// can call this in AdminBusinessManager
-		IEnumerable<Blog> GetBlogs(ApplicationUser applicationUser);
-		public IEnumerable<Blog> GetBlogs(string searchString);
+		IEnumerable<Post> GetPosts(ApplicationUser applicationUser);
+		public IEnumerable<Post> GetPosts(string searchString);
 
-		Task<Blog> Add(Blog blog);
-		Task<Blog> Update(Blog blog);
+		Task<Post> Add(Post post);
+		Task<Post> Update(Post post);
 		//Task<Blog> Delete(Blog blog);
 	}
 }

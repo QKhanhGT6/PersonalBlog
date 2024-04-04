@@ -2,12 +2,12 @@
 using OldBLOG.Data.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace OldBLOG.Models.BlogViewModels
+namespace OldBLOG.Models.PostViewModels
 {
 	public class DeleteViewModel
 	{
 		[Display(Name = "Header Image")]
-		public IFormFile BlogHeaderImage { get; set; }
-		public Blog Blog { get; set; }
+		public IFormFile HeaderImage { get; set; }
+		public Post Post { get; set; }
 	}
 }
