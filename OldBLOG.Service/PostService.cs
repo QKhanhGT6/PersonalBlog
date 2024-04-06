@@ -29,6 +29,7 @@ namespace OldBLOG.Service
 					.ThenInclude(comment => comment.Author)
 				.Include(post => post.Comments)
 					.ThenInclude(comment => comment.Comments)
+						.ThenInclude(reply => reply.Parent)
 				.FirstOrDefault(post => post.Id == postId);
 		}
 
@@ -41,6 +42,15 @@ namespace OldBLOG.Service
 				.Where(post => post.Title.Contains(searchString) || post.Content.Contains(searchString));
 		}
 
+		public Comment GetComment(int commentId)
+		{
+			return applicationDbContext.Comments
+				.Include(comment => comment.Author)
+				.Include(comment => comment.Post)
+				.Include(comment => comment.Parent)
+				.FirstOrDefault(comment =>  comment.Id == commentId);
+		}
+
 		// through Interface
 		public IEnumerable<Post> GetPosts(ApplicationUser applicationUser) 
 		{
@@ -49,13 +59,21 @@ namespace OldBLOG.Service
 				.Include(post => post.Creator)
 				.Include(post => post.Comments)
 				.Where(post => post.Creator == applicationUser);
-		}
+		}	
 
 		public async Task<Post> Add(Post post)
 		{
 			applicationDbContext.Add(post);
 			await applicationDbContext.SaveChangesAsync();
 			return post;
+		}
+
+		// overload method
+		public async Task<Comment> Add(Comment comment)
+		{
+			applicationDbContext.Add(comment);
+			await applicationDbContext.SaveChangesAsync();
+			return comment;
 		}
 
 		public async Task<Post> Update(Post post)

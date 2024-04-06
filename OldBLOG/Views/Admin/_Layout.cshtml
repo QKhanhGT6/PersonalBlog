@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="~/css/stylesAD.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    @RenderSection("Styles", required: false)
 </head>
 <body class="sb-nav-fixed">
     
@@ -36,5 +37,6 @@
     <!--Without including jQuery, any jQuery code in your project would not work, 
     as the browser wouldn’t recognize the ‘$’ symbol or any jQuery methods-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -52,6 +52,8 @@ namespace OldBLOG
             services.AddScoped<IPostBusinessManager, PostBusinessManager>();
             services.AddScoped<IPostService, PostService>();
 			services.AddScoped<IAdminBusinessManager, AdminBusinessManager>();
+			services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IHomeBusinessManager, HomeBusinessManager>();
 
             // for Authorization
             services.AddTransient<IAuthorizationHandler, PostAuthorizationHandler>();
