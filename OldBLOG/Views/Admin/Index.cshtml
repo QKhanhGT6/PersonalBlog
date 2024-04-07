@@ -48,10 +48,14 @@
 							</div>
 
 							<div class="col">
-								<a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-danger float-right">
-									<i class="fa fa-trash"></i> Delete
-								</a>
+								<form asp-controller="Post" asp-action="Delete" method="post">
+									<input type="hidden" name="id" value="@post.Id" />
+									<button type="submit" class="btn btn-danger float-right">
+										<i class="fa fa-trash"></i> Delete
+									</button>
+								</form>
 							</div>
+
 						</div>
 					</div>
 				</div>

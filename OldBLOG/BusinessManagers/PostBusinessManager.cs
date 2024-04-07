@@ -39,7 +39,7 @@ namespace OldBLOG.BusinessManagers
 		// for pagination
 		public IndexViewModel GetIndexViewModel(string searchString, int? page)
 		{
-			int pageSize = 20;
+			int pageSize = 3;
 			int pageNumber = page ?? 1;
 			var posts = postService.GetPosts(searchString ?? string.Empty)
 				.Where(post => post.Published);
@@ -104,6 +104,34 @@ namespace OldBLOG.BusinessManagers
 
 			return post;
 		}
+
+		public async Task<ActionResult> DeletePost(int id, ClaimsPrincipal claimsPrincipal)
+		{
+			var post = postService.GetPost(id);
+
+			if (post is null)
+				return new NotFoundResult();
+
+			var authorizationResult = await authorizationService.AuthorizeAsync(claimsPrincipal, post, Operations.Delete);
+
+			if (!authorizationResult.Succeeded)
+				return DetermineActionResult(claimsPrincipal);
+
+			// Delete the header image
+			string webRootPath = webHostEnvironment.WebRootPath;
+			string pathToImage = $@"{webRootPath}\UserFiles\Posts\{post.Id}\HeaderImage.jpg";
+			if (System.IO.File.Exists(pathToImage))
+			{
+				System.IO.File.Delete(pathToImage);
+			}
+
+			await postService.Delete(post);
+
+			return new OkResult();
+		}
+
+
+
 
 		public async Task<ActionResult<Comment>> CreateComment(PostViewModel postViewModel, ClaimsPrincipal claimsPrincipal)
 		{

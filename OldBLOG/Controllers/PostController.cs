@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OldBLOG.BusinessManagers.Interfaces;
 using OldBLOG.Data;
 using OldBLOG.Models.PostViewModels;
+using OldBLOG.Service;
 using System.Threading.Tasks;
 
 namespace Oldpost.Controllers
@@ -50,17 +51,6 @@ namespace Oldpost.Controllers
             return actionResult.Result;
         }
 
-        /*
-		public async Task<IActionResult> Delete(int? id)
-		{
-			var actionResult = await postBusinessManager.GetDeleteViewModel(id, User);
-
-			if (actionResult.Result is null)
-				return View(actionResult.Value);
-
-			return actionResult.Result;
-		}*/
-
 		[HttpPost]
         public async Task<IActionResult> Add(CreateViewModel createViewModel)
         {
@@ -79,6 +69,18 @@ namespace Oldpost.Controllers
 
 			return actionResult.Result;
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(int id)
+		{
+			var actionResult = await postBusinessManager.DeletePost(id, User);
+
+			if (actionResult is OkResult)
+				return RedirectToAction("Index", "Admin");
+
+			return actionResult;
+		}
+
 
 		[HttpPost]
 		public async Task<IActionResult> Comment(PostViewModel postViewModel)

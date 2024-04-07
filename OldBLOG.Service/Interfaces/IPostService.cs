@@ -17,6 +17,7 @@ namespace OldBLOG.Service.Interfaces
 		Task<Post> Add(Post post);
 		Task<Post> Update(Post post);
 		//Task<Blog> Delete(Post post);
+		Task Delete(Post post);
 
 		Comment GetComment(int commentId);
 		Task<Comment> Add(Comment comment);

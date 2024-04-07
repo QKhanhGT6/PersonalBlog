@@ -20,7 +20,7 @@ namespace OldBLOG.BusinessManagers.Interfaces
 
 		Task<ActionResult<Comment>> CreateComment(PostViewModel postViewModel, ClaimsPrincipal claimsPrincipal);
 
-		/*Task<ActionResult<EditViewModel>> DeleteBlog(EditViewModel editViewModel, ClaimsPrincipal claimsPrincipal);
-		Task<ActionResult<DeleteViewModel>> GetDeleteViewModel(int? id, ClaimsPrincipal claimsPrincipal);*/
+		Task<ActionResult> DeletePost(int id, ClaimsPrincipal claimsPrincipal);
+
 	}
 }

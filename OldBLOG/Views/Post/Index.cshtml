@@ -25,12 +25,12 @@
 					<li class="comment" style="margin-top: 30px;">
 						<div class="comment-body">
 							<h4 class="commenter-name">@comment.Author.FirstName @comment.Author.LastName</h4>
-							<div class="comment-date">@comment.CreatedOn.ToString("MMMM d, yyyy hh:mm tt")</div>
-							<p class="comment-message">@comment.Content</p>
+							<div class="comment-date" style="font-size: smaller; color: grey;">@comment.CreatedOn.ToString("MMMM d, yyyy hh:mm tt")</div>
+							<p class="comment-message" style="margin-top: 10px">@comment.Content</p>
 							<!--Login To Reply-->
 							@if (!User.Identity.IsAuthenticated)
 							{
-								<a class="reply-btn btn" asp-action="Identity" asp-page="/Account/Login" asp-route-ReturnUrl="~/Post/@Model.Post.Id">Login to reply</a>
+								<a class="reply-btn btn" asp-area="Identity" asp-page="/Account/Login" asp-route-ReturnUrl="~/Post/@Model.Post.Id">Login to reply</a>
 							}
 							else
 							{
@@ -58,7 +58,7 @@
 								<li class="comment">
 									<div class="comment-body">
 										<h3 class="commenter-name">@reply.Author.FirstName @reply.Author.LastName</h3>
-										<div class="comment-date">@reply.CreatedOn.ToString("MMMM d, yyyy hh: mm tt")</div>
+										<div class="comment-date" style="font-size: smaller; color: grey;">@reply.CreatedOn.ToString("MMMM d, yyyy hh: mm tt")</div>
 										<p class="comment.message">@reply.Content</p>
 									</div>
 								</li>
@@ -84,7 +84,7 @@
 			}
 			else
 			{
-				<a class="reply-btn btn" asp-action="Identity" asp-page="/Account/Login" asp-route-ReturnUrl="~/Post/@Model.Post.Id">Login to comment on this post</a>
+				<a class="reply-btn btn" asp-area="Identity" asp-page="/Account/Login" asp-route-ReturnUrl="~/Post/@Model.Post.Id">Login to comment on this post</a>
 			}
 		</div>
 	</div>

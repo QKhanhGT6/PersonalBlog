@@ -83,6 +83,13 @@ namespace OldBLOG.Service
 			return post;
 		}
 
+		public async Task Delete(Post post)
+		{
+			applicationDbContext.Posts.Remove(post);
+			await applicationDbContext.SaveChangesAsync();
+		}
+
+
 		/*public async Task<post> Delete(post post)
 		{
 			applicationDbContext.Delete(post);

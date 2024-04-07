@@ -10,10 +10,64 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
 .content {
     min-height: calc(100vh - 100px);
 }
 
+comment-message {
+    opacity: .75;
+    line-height: 1.7;
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.comment-list {
+    list-style-type: none;
+    margin-top: 20px;
+}
+
+.comment-top {
+    padding-left: 0;
+}
+
+.comment-date {
+    color: #ccc !important;
+    font-size: 13px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.commennt-body {
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+.comment-body p {
+    margin-top: 0;
+}
+
+commenter-name {
+    font-size: 20px;
+}
+
+.reply-btn {
+    padding: 0px 10px 5px 0px !important;
+    text-decoration: none;
+    color: deepskyblue;
+    border: none;
+}
+
+.post-btn {
+    padding: 5px 10px 5px 10px !important;
+    ;
+    margin-top: 10px;
+}
+
+.reply-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
 
 :root {
   --bs-blue: #0d6efd;
