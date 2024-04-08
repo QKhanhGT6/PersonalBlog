@@ -39,7 +39,7 @@ namespace OldBLOG.BusinessManagers
 		// for pagination
 		public IndexViewModel GetIndexViewModel(string searchString, int? page)
 		{
-			int pageSize = 3;
+			int pageSize = 6;
 			int pageNumber = page ?? 1;
 			var posts = postService.GetPosts(searchString ?? string.Empty)
 				.Where(post => post.Published);
@@ -129,7 +129,6 @@ namespace OldBLOG.BusinessManagers
 
 			return new OkResult();
 		}
-
 
 
 

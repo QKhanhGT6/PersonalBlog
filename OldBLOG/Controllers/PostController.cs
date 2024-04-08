@@ -88,7 +88,7 @@ namespace Oldpost.Controllers
 			var actionResult = await postBusinessManager.CreateComment(postViewModel, User);
 
 			if (actionResult.Result is null)
-				return RedirectToAction("Edit", new { postViewModel.Post.Id });
+				return RedirectToAction("Index", new { id = postViewModel.Post.Id });
 
 			return actionResult.Result;
 		}

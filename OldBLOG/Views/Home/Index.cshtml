@@ -2,12 +2,16 @@
 @using PagedList.Core.Mvc
 
 <div class="container">
-	<form asp-controller="Home" asp-action="Index" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-md-0">
-		<input asp-for="SearchString" type="text" class="form-control" placeholder="Search posts for..." />
-		<div class="input-group-append">
-			<button class="btn btn-outline-success" style="padding: 0 10px 0 10px">Search</button>
+	<!-- Search bar -->
+	<div class="row justify-content-center mb-4">
+		<div class="col-md-6 text-center">
+			<form asp-controller="Home" asp-action="Index" class="form-inline justify-content-center">
+				<input asp-for="SearchString" type="text" class="form-control mr-sm-2" placeholder="Search posts for..." />
+				<button type="submit" class="btn btn-outline-success ml-sm-2" style="margin-top: 10px; padding-top: 10px; padding-bottom: 10px; background-color: greenyellow">Search</button>
+			</form>
 		</div>
-	</form>
+	</div>
+
 	<!--Iterate through each blog, create card for it-->
 	<div class="row align-content-center">
 		@foreach (var post in Model.Posts)
@@ -24,6 +28,11 @@
 			</div>
 		}
 	</div>
-	<!--Button to go Prev, Next-->
-	<pager class="pager-controller" list="@Model.Posts" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext" asp-action="Index" asp-controller="Home" asp-route-query="@Model.SearchString"></pager>
+	<!-- Button to go Prev, Next -->
+	<div class="row justify-content-center mt-4">
+		<div class="col-2 text-center">
+			<pager class="pager-controller" list="@Model.Posts" options="@PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext" asp-action="Index" asp-controller="Home" asp-route-query="@Model.SearchString"></pager>
+		</div>
+	</div>
+
 </div>

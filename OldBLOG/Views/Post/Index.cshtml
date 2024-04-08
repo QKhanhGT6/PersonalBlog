@@ -17,7 +17,7 @@
 	</div>
 	<div class="row mt-5">
 		<div class="col-lg-8 col-md-10 mx-auto">
-			<h3 class="mb-5">@Model.Post.Comments.Count() Comment(s)</h3>
+			<h3 class="mb-5" style="color: #030ffc; margin-top: 25px">@Model.Post.Comments.Count() Comment(s)</h3>
 			<!--only display if there is a comment-->
 			<ul class="comment-list comment-top" list="@Model.Post.Comments" count="0">
 				@foreach (var comment in Model.Post.Comments.Where(comment => comment.Parent is null))
@@ -26,44 +26,8 @@
 						<div class="comment-body">
 							<h4 class="commenter-name">@comment.Author.FirstName @comment.Author.LastName</h4>
 							<div class="comment-date" style="font-size: smaller; color: grey;">@comment.CreatedOn.ToString("MMMM d, yyyy hh:mm tt")</div>
-							<p class="comment-message" style="margin-top: 10px">@comment.Content</p>
-							<!--Login To Reply-->
-							@if (!User.Identity.IsAuthenticated)
-							{
-								<a class="reply-btn btn" asp-area="Identity" asp-page="/Account/Login" asp-route-ReturnUrl="~/Post/@Model.Post.Id">Login to reply</a>
-							}
-							else
-							{
-								<a aria-expanded="false" href="@($"#replyComment{comment.Id}")" data-toggle="collapse" class="reply-btn btn">Reply</a>
-							}
+							<p class="comment-message" style="margin-top: 10px; margin-bottom: 5px">@comment.Content</p>
 						</div>
-						@if (User.Identity.IsAuthenticated)
-						{
-							<div class="collapse" id="@($"replyComment{comment.Id}")">
-								<form asp-controller="Post" asp-action="Comment">
-									<input asp-for="Post.Id" readonly hidden />
-									<input asp-for="Comment.Parent.Id" value="@comment.Id" readonly hidden />
-									<div class="form-group">
-										<label for="comment">Write a reply</label>
-										<textarea asp-for="Comment.Content" class="form-control" rows="3"></textarea>
-										<button type="submit" class="btn btn-outline-primary post-btn">Post</button>
-									</div>
-								</form>
-							</div>
-						}
-						<!--nested comment-->
-						<ul class="comment-list" list="@comment.Comments" count="0" style="margin-left: 30px; margin-top: 0px;">
-							@foreach (var reply in comment.Comments)
-							{
-								<li class="comment">
-									<div class="comment-body">
-										<h3 class="commenter-name">@reply.Author.FirstName @reply.Author.LastName</h3>
-										<div class="comment-date" style="font-size: smaller; color: grey;">@reply.CreatedOn.ToString("MMMM d, yyyy hh: mm tt")</div>
-										<p class="comment.message">@reply.Content</p>
-									</div>
-								</li>
-							}
-						</ul>
 					</li>
 					<hr />
 				}
@@ -77,7 +41,7 @@
 						<div class="form-group">
 							<label for="comment">Comment</label>
 							<textarea asp-for="Comment.Content" class="form-control" rows="3" required></textarea>
-							<button type="submit" class="btn btn-outline-primary post-btn">Post</button>
+							<button type="submit" class="btn btn-outline-primary post-btn" style="margin-bottom: 15px">Post</button>
 						</div>
 					</form>
 				</div>
@@ -97,14 +61,15 @@
 			var $this = $(this),
 				$parent = typeof $this.data('parent') !== 'undefined' ? $($this.data('parent')) : undefined;
 			if ($parent == undefined) { /* Just toggle my */
-				$this.find('.glyphicon').toggleClass('glyphicon-plus glyphicon-minus');
+				$this.find('.fa').toggleClass('fa-plus fa-minus'); 
 				return true;
 			}
 
 			/* Open element will be close if parent !== undefined */
-			var currentIcon = $this.find('.glyphicon');
-			currentIcon.toggleClass('glyphicon-plus glyphicon-minus');
-			$parent.find('.glyphicon').not(currentIcon).removeClass('glyphicon-minus').addClass('glyphicon-plus');
+			var currentIcon = $this.find('.fa'); 
+			currentIcon.toggleClass('fa-plus fa-minus'); 
+			$parent.find('.fa').not(currentIcon).removeClass('fa-minus').addClass('fa-plus'); 
 		});
+
 	</script>
 }

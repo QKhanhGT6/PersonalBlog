@@ -56,7 +56,7 @@ namespace OldBLOG
             services.AddScoped<IHomeBusinessManager, HomeBusinessManager>();
 
             // for Authorization
-            services.AddTransient<IAuthorizationHandler, PostAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, PostAuthorizationHandler>();
 		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

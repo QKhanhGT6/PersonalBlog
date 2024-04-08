@@ -2,28 +2,35 @@
 @using OldBLOG.Data.Models
 @inject UserManager<ApplicationUser> UserManager
 
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var email = user?.Email;
+}
+
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
         <div class="nav">
-            <!--<div class="sb-sidenav-menu-heading">Core</div>-->
             <a class="nav-link" asp-controller="Admin" asp-action="Index">
                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                 Dashboard
             </a>
 
-            <a class="nav-link" asp-controller="Admin" asp-action="About">
-                <div class="sb-nav-link-icon"><i class="fas fa-user-edit"></i></div>
-                About Me
-            </a>
-            
-            <a class="nav-link" asp-controller="Post" asp-action="Create">
-                <div class="sb-nav-link-icon"><i class="fas fa-pen"></i></div>
-                Create Post
-            </a>
+            @if (email == "dinhquockhanhk14@siu.edu.vn")
+            {
+                <a class="nav-link" asp-controller="Admin" asp-action="About">
+                    <div class="sb-nav-link-icon"><i class="fas fa-user-edit"></i></div>
+                    About Me
+                </a>
+
+                <a class="nav-link" asp-controller="Post" asp-action="Create">
+                    <div class="sb-nav-link-icon"><i class="fas fa-pen"></i></div>
+                    Create Post
+                </a>
+            }
         </div>
     </div>
     <div class="sb-sidenav-footer">
         <div class="small">Logged in as:</div>
-        @($"{(await UserManager.GetUserAsync(User)).FirstName} {(await UserManager.GetUserAsync(User)).LastName}")
+        @($"{user.FirstName} {user.LastName}")
     </div>
 </nav>

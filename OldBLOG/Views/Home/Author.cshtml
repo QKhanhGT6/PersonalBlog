@@ -16,15 +16,18 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-8 col-md-10 mx-auto">
-				<form asp-controller="Home" asp-action="Author" class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-					<div class="input-group mb-3">
-						<input name="AuthorId" hidden readonly value="@Model.Author.Id" />
-						<input asp-for="SearchString" type="text" class="form-control" placeholder="Search posts for..." />
-						<div class="input-group-append">
-							<button class="btn btn-outline-secondary" style="padding: 0 10px 0 10px">Search</button>
-						</div>
+				
+				<!-- Search bar -->
+				<div class="row justify-content-center mb-4">
+					<div class="col-md-6 text-center">
+						<form asp-controller="Home" asp-action="Author" class="form-inline justify-content-center">
+							<input name="AuthorId" hidden readonly value="@Model.Author.Id" />
+							<input asp-for="SearchString" type="text" class="form-control mr-sm-2" placeholder="Search posts for..." />
+							<button type="submit" class="btn btn-outline-success ml-sm-2" style="margin-top: 10px; padding-top: 10px; padding-bottom: 10px; background-color: greenyellow">Search</button>
+						</form>
 					</div>
-				</form>
+				</div>
+
 				<div class="row align-content-center">
 					@foreach (var post in Model.Posts)
 					{
