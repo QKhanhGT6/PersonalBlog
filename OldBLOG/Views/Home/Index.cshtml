@@ -1,13 +1,31 @@
 ﻿@model OldBLOG.Models.HomeViewModels.IndexViewModel
 @using PagedList.Core.Mvc
 
+<style>
+	.fixed-height-img {
+		height: 200px; /* Adjust as needed */
+		width: auto;
+		object-fit: cover; /* This will make sure your images are scaled nicely */
+	}
+
+	.fixed-height-card {
+		height: 100px; /* Adjust as needed */
+		overflow: auto; /* Add a scrollbar if the content is too long */
+	}
+
+	.btn:hover {
+		background-color: green; /* Change to desired hover color */
+		color: white; /* Change text color on hover */
+	}
+</style>
+
 <div class="container">
 	<!-- Search bar -->
 	<div class="row justify-content-center mb-4">
 		<div class="col-md-6 text-center">
 			<form asp-controller="Home" asp-action="Index" class="form-inline justify-content-center">
 				<input asp-for="SearchString" type="text" class="form-control mr-sm-2" placeholder="Search posts for..." />
-				<button type="submit" class="btn btn-outline-success ml-sm-2" style="margin-top: 10px; padding-top: 10px; padding-bottom: 10px; background-color: greenyellow">Search</button>
+				<button type="submit" class="btn btn-outline-success ml-sm-2" style="margin-top: 10px; padding-top: 10px; padding-bottom: 10px; background-color: greenyellow; border-radius: 10px;">Search</button>
 			</form>
 		</div>
 	</div>
@@ -18,8 +36,8 @@
 		{
 			<div class="col-lg-4 col-md-3 mb-4">
 				<div class="card border-0 shadow">
-					<img src="~/UserFiles/Posts/@post.Id/HeaderImage.jpg" class="card-img-top" />
-					<div class="card-body">
+					<img src="~/UserFiles/Posts/@post.Id/HeaderImage.jpg" class="card-img-top fixed-height-img" />
+					<div class="card-body fixed-height-card">
 						<div class="row text-center" style="margin: 0px auto 10px 0px;">
 							<h5 class="card-title text-center w-100"><a asp-controller="Post" asp-action="Index" asp-route-id="@post.Id">@post.Title</a></h5>
 						</div>
@@ -28,6 +46,7 @@
 			</div>
 		}
 	</div>
+
 	<!-- Button to go Prev, Next -->
 	<div class="row justify-content-center mt-4">
 		<div class="col-2 text-center">

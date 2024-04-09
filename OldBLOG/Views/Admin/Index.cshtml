@@ -1,17 +1,29 @@
 ﻿@model OldBLOG.Models.AdminViewModels.IndexViewModel
+
+<style>
+	.fixed-height-img {
+		height: 200px; /* Adjust as needed */
+		width: auto;
+		object-fit: cover; /* This will make sure your images are scaled nicely */
+	}
+
+	.fixed-height-card {
+		height: 150px; /* Adjust as needed */
+		overflow: auto; /* Add a scrollbar if the content is too long */
+	}
+</style>
+
 <div class="container-fluid">
-	<h1 class="mt-4">Dashboard</h1>
-	<ol class="breadcrumb mb-4">
-		<li class="breadcrumb-item active">Dashboard</li>
-	</ol>
+	<h1 class="mt-4" style="margin-bottom: 40px">Dashboard</h1>
+
 	<div class="row">
 		@foreach (var post in Model.Posts)
 		{
 			<div class="col-xl-4 col-md-6 mb-4">
 				<div class="card border-0 shadow">
-					<img src="~/UserFiles/Posts/@post.Id/HeaderImage.jpg" class="card-img-top" />
-					
-					<div class="card-body">
+					<img src="~/UserFiles/Posts/@post.Id/HeaderImage.jpg" class="card-img-top fixed-height-img" />
+
+					<div class="card-body fixed-height-card">
 						<div><h5 class="card-title mb-0">@post.Title</h5></div>
 						<div class="d-flex justify-content-end">
 							<i class="fas @(post.Published ? "fa-eye" : "fa-eye-slash")" style="color: @(post.Published ? "deepskyblue" : "orangered")"></i>
