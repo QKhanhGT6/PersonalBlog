@@ -1,4 +1,4 @@
-![Blog main interface](https://github.com/QKhanhGT6/PersonalBlog/assets/153789536/ce487961-b69e-4a4a-b154-9b35f9d636bf)# Personal Blog 
+# Personal Blog 
 
 ## 1) Project Description
 Fully functional blog website using **ASP.NET Core MVC 3.1** and **SSMS** (SqlServer) for database. Have a 
@@ -18,10 +18,12 @@ Fully functional blog website using **ASP.NET Core MVC 3.1** and **SSMS** (SqlSe
   + Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
   + PagedList.Core.Mvc
 + Go to Package Manager Console, Choose OldBLOG.Data in the Default Project dropdown. After that, insert these lines after the PM>:
-  '''
+  ```
   Add-Migration [*insert name of your choice*]
+  ```
+  ```
   Update-Database
-  '''
+  ```
 
 ## 3) Project Description
 ### Home page
